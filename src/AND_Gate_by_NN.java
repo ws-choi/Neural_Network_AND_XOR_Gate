@@ -28,6 +28,8 @@ public class AND_Gate_by_NN {
         for (int i = 0; i < 1500; i++) {
             w = training(w, list, t);
             print_err(w, list, t);
+            print_out(w, list);
+
         }
         print_err(w, list, t);
         print_out(w, list);
@@ -80,9 +82,9 @@ public class AND_Gate_by_NN {
 
             for (int j = 0; j < new_w.length; j++) {
                 if(j==new_w.length - 1)
-                    new_w[j] -= -0.1 *target_minus_z *  sigz * (1-sigz);
+                    new_w[j] -= - 0.4 *target_minus_z *  sigz * (1-sigz);
                 else
-                    new_w[j] -= -0.1 *target_minus_z *  sigz * (1-sigz) * cases[j];
+                    new_w[j] -= - 0.4 *target_minus_z *  sigz * (1-sigz) * cases[j];
             }
 
             z= product(cases, new_w);

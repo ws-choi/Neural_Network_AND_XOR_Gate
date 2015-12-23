@@ -6,6 +6,8 @@ import java.util.List;
  */
 public class XOR_Gate_NN {
 
+    private static double learning_rate = 0.4;
+
     public static void main(String[] args) {
 
         double[] c_1 = {0, 0, 1};
@@ -118,18 +120,18 @@ public class XOR_Gate_NN {
 
             for (int j = 0; j < new_w[2].length; j++) {
                 if(j==new_w[2].length - 1)
-                    new_w[2][j] -= -0.1 * target_minus_sigz3 *  sigz3 * (1-sigz3);
+                    new_w[2][j] -= -1 * learning_rate * target_minus_sigz3 *  sigz3 * (1-sigz3);
                 else
-                    new_w[2][j] -= -0.1 * target_minus_sigz3 *  sigz3 * (1-sigz3) * z3_input[j];
+                    new_w[2][j] -= -1 * learning_rate * target_minus_sigz3 *  sigz3 * (1-sigz3) * z3_input[j];
             }
 
         //    System.out.println("z3:\t" +             print_err(new_w, cases, target));
 
             for (int j = 0; j < new_w[1].length; j++) {
                 if(j==new_w[1].length - 1)
-                    new_w[1][j] -= -0.1 * sigz2 * (1-sigz2) * new_w[2][1] * target_minus_sigz3 *  sigz3 * (1-sigz3);
+                    new_w[1][j] -= -1 * learning_rate * sigz2 * (1-sigz2) * new_w[2][1] * target_minus_sigz3 *  sigz3 * (1-sigz3);
                 else
-                    new_w[1][j] -= -0.1 * cases[j] * sigz2 * (1-sigz2) * new_w[2][1] * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
+                    new_w[1][j] -= -1 * learning_rate * cases[j] * sigz2 * (1-sigz2) * new_w[2][1] * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
             }
 
         //    System.out.println("z2:\t" +                print_err(new_w, cases, target));
@@ -137,9 +139,9 @@ public class XOR_Gate_NN {
 
             for (int j = 0; j < new_w[0].length; j++) {
                 if(j==new_w[0].length - 1)
-                    new_w[0][j] -= -0.1 * sigz1 * (1-sigz1) *  new_w[2][0] *target_minus_sigz3 *  sigz3 * (1-sigz3);
+                    new_w[0][j] -= -1 * learning_rate * sigz1 * (1-sigz1) *  new_w[2][0] *target_minus_sigz3 *  sigz3 * (1-sigz3);
                 else
-                    new_w[0][j] -= -0.1 * cases[j] * sigz1 * (1-sigz1) * new_w[2][0] * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
+                    new_w[0][j] -= -1 * learning_rate * cases[j] * sigz1 * (1-sigz1) * new_w[2][0] * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
             }
 
      //       System.out.println("z1:\t" +                print_err(new_w, cases, target));
