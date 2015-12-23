@@ -6,7 +6,7 @@ import java.util.List;
  */
 public class XOR_Gate_NN {
 
-    private static double learning_rate = 0.4;
+    private static double learning_rate = 0.2;
 
     public static void main(String[] args) {
 
@@ -20,10 +20,10 @@ public class XOR_Gate_NN {
         List<double[]> list = new ArrayList<double[]>(4);
         list.add(c_1); list.add(c_2); list.add(c_3); list.add(c_4);
 
-        double[] w1= {+0.54, -0.61 , -0.15};
-        double[] w2= {-0.24, +0.44, 0.14};
-        double[] w3= {+0.12, -0.24, 0.15};
-        double[][] W = {w1, w2, w3};
+        double[] w0= {-0.54, -0.61 , -0.15};
+        double[] w1= {-0.24, -0.24, 0.14};
+        double[] w2= {+0.72, -0.24, 0.15};
+        double[][] W = {w0, w1, w2};
 
 
         for (int i = 0; i < 20000; i++) {
@@ -100,13 +100,13 @@ public class XOR_Gate_NN {
         double[][] new_w = w.clone();
 
         for (int i = 0; i < list.size(); i++) {
-            double[] cases = list.get(i);
+            double[] z12_input = list.get(i);
             double target = t[i];
 
-            double z1 = product(cases, new_w[0]);
+            double z1 = product(z12_input, new_w[0]);
             double sigz1 = sigm(z1);
 
-            double z2 = product(cases, new_w[1]);
+            double z2 = product(z12_input, new_w[1]);
             double sigz2 = sigm(z2);
 
             double[] z3_input = {sigz1, sigz2, 1};
@@ -115,36 +115,15 @@ public class XOR_Gate_NN {
 
             double target_minus_sigz3= target-sigz3;
 
-       //     System.out.println("before:\t" +           print_err(new_w, cases, target));
 
+            for (int j = 0; j < new_w[2].length; j++)
+                    new_w[2][j] -= -1 * learning_rate *  z3_input[j]                                     * target_minus_sigz3 *  sigz3 * (1-sigz3);
 
-            for (int j = 0; j < new_w[2].length; j++) {
-                if(j==new_w[2].length - 1)
-                    new_w[2][j] -= -1 * learning_rate * target_minus_sigz3 *  sigz3 * (1-sigz3);
-                else
-                    new_w[2][j] -= -1 * learning_rate * target_minus_sigz3 *  sigz3 * (1-sigz3) * z3_input[j];
-            }
+            for (int j = 0; j < new_w[1].length; j++)
+                    new_w[1][j] -= -1 * learning_rate * z12_input[j] * (sigz2 * (1-sigz2) * new_w[2][1]) * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
 
-        //    System.out.println("z3:\t" +             print_err(new_w, cases, target));
-
-            for (int j = 0; j < new_w[1].length; j++) {
-                if(j==new_w[1].length - 1)
-                    new_w[1][j] -= -1 * learning_rate * sigz2 * (1-sigz2) * new_w[2][1] * target_minus_sigz3 *  sigz3 * (1-sigz3);
-                else
-                    new_w[1][j] -= -1 * learning_rate * cases[j] * sigz2 * (1-sigz2) * new_w[2][1] * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
-            }
-
-        //    System.out.println("z2:\t" +                print_err(new_w, cases, target));
-
-
-            for (int j = 0; j < new_w[0].length; j++) {
-                if(j==new_w[0].length - 1)
-                    new_w[0][j] -= -1 * learning_rate * sigz1 * (1-sigz1) *  new_w[2][0] *target_minus_sigz3 *  sigz3 * (1-sigz3);
-                else
-                    new_w[0][j] -= -1 * learning_rate * cases[j] * sigz1 * (1-sigz1) * new_w[2][0] * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
-            }
-
-     //       System.out.println("z1:\t" +                print_err(new_w, cases, target));
+            for (int j = 0; j < new_w[0].length; j++)
+                    new_w[0][j] -= -1 * learning_rate * z12_input[j] * (sigz1 * (1-sigz1) * new_w[2][0]) * target_minus_sigz3 *  sigz3 * (1-sigz3) ;
 
 
         }
