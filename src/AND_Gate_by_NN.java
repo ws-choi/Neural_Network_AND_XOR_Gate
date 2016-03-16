@@ -25,10 +25,10 @@ public class AND_Gate_by_NN {
         print_err(w, list, t);
 
 
-        for (int i = 0; i < 1500; i++) {
+        for (int i = 0; i < 10; i++) {
             w = training(w, list, t);
             print_err(w, list, t);
-            print_out(w, list);
+//            print_out(w, list);
 
         }
         print_err(w, list, t);
@@ -80,12 +80,9 @@ public class AND_Gate_by_NN {
 
 //            System.out.println("targer: " + target + ", estimate: " + sigz);
 
-            for (int j = 0; j < new_w.length; j++) {
-                if(j==new_w.length - 1)
-                    new_w[j] -= - 0.4 *target_minus_z *  sigz * (1-sigz);
-                else
+            for (int j = 0; j < new_w.length; j++)
                     new_w[j] -= - 0.4 *target_minus_z *  sigz * (1-sigz) * cases[j];
-            }
+
 
             z= product(cases, new_w);
             sigz = sigm(z);

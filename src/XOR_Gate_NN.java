@@ -26,7 +26,7 @@ public class XOR_Gate_NN {
         double[][] W = {w0, w1, w2};
 
 
-        for (int i = 0; i < 20000; i++) {
+        for (int i = 0; i < 6000; i++) {
             W = training(W, list, t);
             print_err(W, list, t);
         }
