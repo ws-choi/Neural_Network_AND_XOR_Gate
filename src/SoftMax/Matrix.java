@@ -1,6 +1,8 @@
+package SoftMax;
+
 public class Matrix {
 
-    double[][] A;
+    public double[][] A;
 
     /*
     A[i][j]
@@ -175,5 +177,39 @@ public class Matrix {
         }
 
         return new Matrix(c);
+    }
+
+    public Matrix to_ReLU() {
+
+        int rows = A.length;
+        int cols = A[0].length;
+        double[][] c = new double[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+
+                c[i][j] = (A[i][j] > 0 ) ? A[i][j] : 0;
+            }
+        }
+
+
+        return new Matrix(c);
+    }
+    public Matrix append_1() {
+
+        int rows = A.length;
+        int cols = A[0].length;
+
+        double[][] c = new double[rows][cols+1];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                c[i][j] = A[i][j];
+            }
+            c[i][cols] = 1;
+        }
+
+        return new Matrix(c);
+
     }
 }

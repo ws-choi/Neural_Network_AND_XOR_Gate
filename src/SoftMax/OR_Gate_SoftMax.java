@@ -1,3 +1,7 @@
+package SoftMax;
+
+import SoftMax.Matrix;
+
 import java.util.List;
 
 
